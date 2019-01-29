@@ -7,7 +7,7 @@
 ##Screenshot
 
 <p align="center">
-<img src="https://github.com/creativeportfolio-ios/MusicTest/blob/master/screenshot/Simulator%20Screen%20Shot%20-%20iPhone%206%20-%202019-01-29%20at%2023.33.40.png" width="250"/>
+<img src="https://github.com/creativeportfolio-ios/MusicTest/blob/master/screenshot/Simulator%20Screen%20Shot%20-%20iPhone%206%20-%202019-01-29%20at%2023.33.40.png" />
 <img src="https://github.com/creativeportfolio-ios/MusicTest/blob/master/screenshot/Simulator%20Screen%20Shot%20-%20iPhone%206%20-%202019-01-29%20at%2023.33.50.png" width="250"/>
 <img src="https://github.com/creativeportfolio-ios/MusicTest/blob/master/screenshot/Simulator%20Screen%20Shot%20-%20iPhone%206%20-%202019-01-29%20at%2023.33.53.png" width="250"/>
 </p>
