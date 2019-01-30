@@ -3,7 +3,7 @@ import Layout from "MusicTest/App/Components/Layout";
 import AlbumArt from 'MusicTest/App/Components/AlbumArt';
 import SeekBar from 'MusicTest/App/Components/SeekBar';
 import Controls from 'MusicTest/App/Components/Controls';
-import { NativeModules,NativeEventEmitter, Image, Dimensions, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Platform, NativeModules, NativeEventEmitter, DeviceEventEmitter, Dimensions, StyleSheet } from 'react-native';
 const { MusicPlayers } = NativeModules;
 const MusicPlayersEmitter = new NativeEventEmitter(MusicPlayers);
 
@@ -22,37 +22,57 @@ class MusicDetails extends React.PureComponent<{}> {
             paused: true,
             totalLength: 0,
             currentPosition: 0
-        };       
+        };
     }
     componentDidMount() {
-        this.listener = MusicPlayersEmitter.addListener('onSongPlay', (e) => {
-            this.setState({
-                paused: false,
-                currentPosition: Math.ceil(e.currentPosition)
-            })          
-        });
-        this.listener = MusicPlayersEmitter.addListener('onSongStop', (e) => {
-            this.setState({ 
-                paused: true,
-                currentPosition: Math.ceil(e.currentPosition)
-            })          
-        });
-        this.listener = MusicPlayersEmitter.addListener('onSongPerpare', (e) => {
-            this.setState({
-                totalLength: Math.ceil(e.totalLength)
-            })          
-        });
-        NativeModules.MusicPlayers.onInitPlayer(this.state.url)
+        if (Platform.OS == 'android') {
+            this.listener = DeviceEventEmitter.addListener('onSongPlay', (e) => {
+                this.setState({
+                    paused: false,
+                    currentPosition: Math.ceil(e.currentPosition)
+                })
+            });
+            this.listener = DeviceEventEmitter.addListener('onSongStop', (e) => {
+                this.setState({
+                    paused: true,
+                    currentPosition: Math.ceil(e.currentPosition)
+                })
+            });
+            this.listener = DeviceEventEmitter.addListener('onSongPerpare', (e) => {
+                this.setState({
+                    totalLength: Math.ceil(e.totalLength)
+                })
+            });
+        } else {
+            this.listener = MusicPlayersEmitter.addListener('onSongPlay', (e) => {
+                this.setState({
+                    paused: false,
+                    currentPosition: Math.ceil(e.currentPosition)
+                })
+            });
+            this.listener = MusicPlayersEmitter.addListener('onSongStop', (e) => {
+                this.setState({
+                    paused: true,
+                    currentPosition: Math.ceil(e.currentPosition)
+                })
+            });
+            this.listener = MusicPlayersEmitter.addListener('onSongPerpare', (e) => {
+                this.setState({
+                    totalLength: Math.ceil(e.totalLength)
+                })
+            });
+        }
+        MusicPlayers.onInitPlayer(this.state.url)
     }
 
     onButtonPlay() {
         this.setState({ paused: false })
-        NativeModules.MusicPlayers.onPlay();
+        MusicPlayers.onPlay();
     }
 
     onButtonPause() {
         this.setState({ paused: true })
-        NativeModules.MusicPlayers.onPause();
+        MusicPlayers.onPause();
     }
 
     render(): React.Node {
